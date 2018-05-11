@@ -56,8 +56,6 @@ class RokuSkill(MycroftSkill):
 		# In this case, respond by simply speaking a canned response.
 		# Mycroft will randomly speak one of the lines from the file
 		#    dialogs/en-us/hello.world.dialog
-		#self.speak_dialog("hello.world")
-		#self.speak_dialog("failure", data={"count": self.count})
 
 		# TODO: Discover this IP
 		address = "192.168.10.20";
@@ -85,6 +83,8 @@ class RokuSkill(MycroftSkill):
 		except:
 			self.speak_dialog("failure")
 			return;
+
+		self.speak_dialog("playing", data={"show": keyword, "source": src})
 
 	def _extract_show (self, utterance):
 		common_words = [" to ", " on ", " with ", " using "]
