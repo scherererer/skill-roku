@@ -34,15 +34,11 @@ import urllib.request
 # Each skill is contained within its own class, which inherits base methods
 # from the MycroftSkill class.  You extend this class as shown below.
 
-# TODO: Change "Template" to a unique name for your skill
 class RokuSkill(MycroftSkill):
 
 	# The constructor of the skill, which calls MycroftSkill's constructor
 	def __init__(self):
-		super(TemplateSkill, self).__init__(name="TemplateSkill")
-
-		# Initialize working variables used within the skill.
-		self.count = 0
+		super(RokuSkill, self).__init__(name="RokuSkill")
 
 	# The "handle_xxxx_intent" function is triggered by Mycroft when the
 	# skill's intent is matched.  The intent is defined by the IntentBuilder()
@@ -79,8 +75,7 @@ class RokuSkill(MycroftSkill):
 		else
 			;
 
-		# TODO: Get this keyword from the utterance
-		keyword="orange";
+		keyword=_extract_show(message.data["utterance"]);
 
 		url = 'http://{}:8060/search/browse?keyword={}{}'.format (address, keyword, provider);
 		postdata = urllib.parse.urlencode({}).encode();
@@ -90,6 +85,17 @@ class RokuSkill(MycroftSkill):
 		except:
 			self.speak_dialog("failure")
 			return;
+
+	def _extract_show (self, utterance):
+		common_words = [" to ", " on ", " with ", " using "]
+		for vocab in self.vocabs:
+			utterance = utterance.replace(vocab, "")
+
+		# strip out other non important words
+		for words in common_words:
+			utterance = utterance.replace(words, "")
+
+		return utterance.strip();
 
 	# The "stop" method defines what Mycroft does when told to stop during
 	# the skill's execution. In this case, since the skill's functionality

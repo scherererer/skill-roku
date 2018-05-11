@@ -1,2 +1,3 @@
 #This file is a list of all pip requirements for your skill (if needed)
-gensim
+#gensim was here by default but I'm not sure it's an actual requirement
+#gensim
