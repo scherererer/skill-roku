@@ -52,7 +52,7 @@ class RokuSkill(MycroftSkill):
 	#   'Howdy you great big world'
 	#   'Greetings planet earth'
 	@intent_handler(IntentBuilder("").require("Show").require("Source"))
-	def handle_hello_world_intent(self, message):
+	def handle_show_intent(self, message):
 		# In this case, respond by simply speaking a canned response.
 		# Mycroft will randomly speak one of the lines from the file
 		#    dialogs/en-us/hello.world.dialog
@@ -61,10 +61,10 @@ class RokuSkill(MycroftSkill):
 		address = "192.168.10.20";
 
 		provider = "";
-	    src = message.data["Source"]
+		src = message.data["Source"]
 
 		# TODO: Figure out what all the provider ID's are
-        if src == "netflix":
+		if src == "netflix":
 			provider = "&provider-id=12";
 		elif src == "amazon":
 			provider = "&provider-id=13";
