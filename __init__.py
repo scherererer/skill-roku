@@ -97,7 +97,7 @@ class RokuSkill(MycroftSkill):
 		for words in common_words:
 			utterance = utterance.replace(words, "")
 
-		return utterance.strip();
+		return utterance.strip().replace(" ", "%20");
 
 	# The "stop" method defines what Mycroft does when told to stop during
 	# the skill's execution. In this case, since the skill's functionality
