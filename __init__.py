@@ -51,7 +51,7 @@ class RokuSkill(MycroftSkill):
 	#   'Hello world'
 	#   'Howdy you great big world'
 	#   'Greetings planet earth'
-	@intent_handler(IntentBuilder("RokuShowIntent").require("Show").require("Source"))
+	@intent_handler(IntentBuilder("").require("Show").require("Source"))
 	def handle_roku_show_intent(self, message):
 		# In this case, respond by simply speaking a canned response.
 		# Mycroft will randomly speak one of the lines from the file
@@ -70,7 +70,7 @@ class RokuSkill(MycroftSkill):
 			provider = "&provider-id=13";
 		elif src == "youtube":
 			;
-		else
+		else:
 			;
 
 		keyword=_extract_show(message.data["utterance"]);
