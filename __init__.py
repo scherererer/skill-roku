@@ -75,7 +75,7 @@ class RokuSkill(MycroftSkill):
 
 		keyword=self._extract_show(message)
 
-		url = 'http://{}:8060/search/browse?keyword={}{}&launch=true'.format (address, keyword, provider)
+		url = 'http://{}:8060/search/browse?keyword={}{}&launch=true'.format (address, keyword.replace(" ", "%20"), provider)
 		postdata = urllib.parse.urlencode({}).encode()
 
 		try:
@@ -97,7 +97,7 @@ class RokuSkill(MycroftSkill):
 		for words in common_words:
 			utterance = utterance.replace(words, "")
 
-		return utterance.strip().replace(" ", "%20");
+		return utterance.strip();
 
 	# The "stop" method defines what Mycroft does when told to stop during
 	# the skill's execution. In this case, since the skill's functionality
