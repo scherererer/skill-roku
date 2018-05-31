@@ -87,9 +87,9 @@ class RokuSkill(MycroftSkill):
 		self.speak_dialog("playing", data={"show": keyword, "source": src})
 
 	def _extract_show(self, message):
-                utterance = message.data["utterance"]
-                utterance = utterance.replace(message.data["Show"], "")
-                utterance = utterance.replace(message.data["Source"], "")
+		utterance = message.data["utterance"]
+		utterance = utterance.replace(message.data["Show"], "")
+		utterance = utterance.replace(message.data["Source"], "")
 
 		# strip out other non important words
 		common_words = [" to ", " on ", " with ", " using "]
