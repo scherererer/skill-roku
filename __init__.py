@@ -58,25 +58,25 @@ class RokuSkill(MycroftSkill):
 		#    dialogs/en-us/hello.world.dialog
 
 		# TODO: Discover this IP
-		address = "192.168.10.20";
+		address = "192.168.10.20"
 
-		provider = "";
+		provider = ""
 		src = message.data["Source"]
 
 		# TODO: Figure out what all the provider ID's are
 		if src == "netflix":
-			provider = "&provider-id=12";
+			provider = "&provider-id=12"
 		elif src == "amazon":
-			provider = "&provider-id=13";
+			provider = "&provider-id=13"
 		elif src == "youtube":
-			;
+			provider = ""
 		else:
-			;
+			provider = ""
 
-		keyword=_extract_show(message.data["utterance"]);
+		keyword=_extract_show(message.data["utterance"])
 
-		url = 'http://{}:8060/search/browse?keyword={}{}'.format (address, keyword, provider);
-		postdata = urllib.parse.urlencode({}).encode();
+		url = 'http://{}:8060/search/browse?keyword={}{}'.format (address, keyword, provider)
+		postdata = urllib.parse.urlencode({}).encode()
 
 		try:
 			req = urllib.request.urlopen(url, data=postdata)
