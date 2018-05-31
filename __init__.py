@@ -75,7 +75,7 @@ class RokuSkill(MycroftSkill):
 
 		keyword=self._extract_show(message)
 
-		url = 'http://{}:8060/search/browse?keyword={}{}'.format (address, keyword, provider)
+		url = 'http://{}:8060/search/browse?keyword={}{}&launch=true'.format (address, keyword, provider)
 		postdata = urllib.parse.urlencode({}).encode()
 
 		try:
