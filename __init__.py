@@ -73,7 +73,7 @@ class RokuSkill(MycroftSkill):
 		else:
 			provider = ""
 
-		keyword=_extract_show(message.data["utterance"])
+		keyword=self._extract_show(message.data["utterance"])
 
 		url = 'http://{}:8060/search/browse?keyword={}{}'.format (address, keyword, provider)
 		postdata = urllib.parse.urlencode({}).encode()
@@ -86,7 +86,7 @@ class RokuSkill(MycroftSkill):
 
 		self.speak_dialog("playing", data={"show": keyword, "source": src})
 
-	def _extract_show (self, utterance):
+	def _extract_show(self, utterance):
 		common_words = [" to ", " on ", " with ", " using "]
 		for vocab in self.vocabs:
 			utterance = utterance.replace(vocab, "")
