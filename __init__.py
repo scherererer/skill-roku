@@ -63,14 +63,23 @@ class RokuSkill(MycroftSkill):
 		provider = ""
 		src = message.data["Source"]
 
-		# TODO: Figure out what all the provider ID's are
+		# TODO: A list of providers comes from http://<address>:8060/query/apps
+		#  In the future, could query this at startup, and then dynamically add
+		#  the available sources to the list of providers. For now, just hard coding
+		#  some popular ones.
 		if src == "netflix":
 			provider = "&provider-id=12"
 		elif src == "amazon":
 			provider = "&provider-id=13"
 		elif src == "youtube":
-			provider = ""
-		else:
+			provider = "&provider-id=837"
+		elif src == "tiny desk concerts":
+			provider = "&provider-id=41305";
+		elif src == "tune in" || src == "tunein":
+			provider = "&provider-id=1453";
+		elif src == "plex"
+			provider = "&provider-id=13535";
+		else:	# Roku
 			provider = ""
 
 		keyword=self._extract_show(message)
