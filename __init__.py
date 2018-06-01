@@ -74,11 +74,11 @@ class RokuSkill(MycroftSkill):
 		elif src == "youtube":
 			provider = "&provider-id=837"
 		elif src == "tiny desk concerts":
-			provider = "&provider-id=41305";
+			provider = "&provider-id=41305"
 		elif src == "tune in" || src == "tunein":
-			provider = "&provider-id=1453";
-		elif src == "plex"
-			provider = "&provider-id=13535";
+			provider = "&provider-id=1453"
+		elif src == "plex":
+			provider = "&provider-id=13535"
 		else:	# Roku
 			provider = ""
 
