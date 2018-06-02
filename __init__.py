@@ -68,19 +68,22 @@ class RokuSkill(MycroftSkill):
 		#  the available sources to the list of providers. For now, just hard coding
 		#  some popular ones.
 		if src == "netflix":
-			provider = "&provider-id=12"
+			provider = "12"
 		elif src == "amazon":
-			provider = "&provider-id=13"
+			provider = "13"
 		elif src == "youtube":
-			provider = "&provider-id=837"
+			provider = "837"
 		elif src == "tiny desk concerts":
-			provider = "&provider-id=41305"
+			provider = "41305"
 		elif src == "tune in" || src == "tunein":
-			provider = "&provider-id=1453"
+			provider = "1453"
 		elif src == "plex":
-			provider = "&provider-id=13535"
+			provider = "13535"
 		else:	# Roku
 			provider = ""
+
+		if provider != "":
+			provider = "&provider-id=" + provider
 
 		keyword=self._extract_show(message)
 
