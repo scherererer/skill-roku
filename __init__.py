@@ -40,6 +40,12 @@ class RokuSkill(MycroftSkill):
 	def __init__(self):
 		super(RokuSkill, self).__init__(name="RokuSkill")
 
+		self.ssdpQuery =
+			'M-SEARCH * HTTP/1.1\nHost: 239.255.255.250:1900\nMan: "ssdp:discover"\nST: roku:ecp\n\n'
+
+	def get_intro_message (self):
+		return self.translate("intro")
+
 	# The "handle_xxxx_intent" function is triggered by Mycroft when the
 	# skill's intent is matched.  The intent is defined by the IntentBuilder()
 	# pieces, and is triggered when the user's utterance matches the pattern
@@ -88,9 +94,9 @@ class RokuSkill(MycroftSkill):
 		keyword=self._extract_show(message)
 
 		url = 'http://{}:8060/search/browse?keyword={}{}&launch=true'.format (address, keyword.replace(" ", "%20"), provider)
-		postdata = urllib.parse.urlencode({}).encode()
 
 		try:
+			postdata = urllib.parse.urlencode({}).encode()
 			req = urllib.request.urlopen(url, data=postdata)
 		except:
 			self.speak_dialog("failure")
