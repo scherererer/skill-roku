@@ -49,14 +49,14 @@ class RokuSkill(MycroftSkill):
 		self.rokuSerial = ""
 		self.rokuLocation = ""
 
-    def initialize(self):
-        self._load_vocab_files()
+	def initialize(self):
+		self._load_vocab_files()
 
-        # Check and then monitor for credential changes
-        self.settings.set_changed_callback(self.on_websettings_changed)
-        self.on_websettings_changed()
+		# Check and then monitor for credential changes
+		self.settings.set_changed_callback(self.on_websettings_changed)
+		self.on_websettings_changed()
 
-    def on_websettings_changed(self):
+	def on_websettings_changed(self):
 		self.rokuSerial = self.settings.get("serial", "")
 
 		self.findRoku();
