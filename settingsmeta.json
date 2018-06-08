@@ -1,0 +1,23 @@
+{
+    "name": "Roku",
+    "color": "#ff00ff",
+    "skillMetadata": {
+        "sections": [
+            {
+                "name": "Roku",
+                "fields": [
+                    {
+                        "type": "label",
+                        "label": "Enter all or part of the serial number of the roku you want to control. You can find this by starting from the Roku's home screen, then going to Settings>System>About and then entering all or part of the serial number. You can leave this blank if you just want it to control the first roku it finds."
+                    },
+                    {
+                        "name": "serial",
+                        "type": "text",
+                        "label": "Serial Number",
+                        "value": ""
+                    }
+                ]
+            }
+        ]
+    }
+}

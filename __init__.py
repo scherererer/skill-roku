@@ -29,7 +29,13 @@
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
 from mycroft.util.log import LOG
+
+# For making REST requests
 import urllib.request
+
+# For multicast / UPnP
+import socket
+import struct
 
 # Each skill is contained within its own class, which inherits base methods
 # from the MycroftSkill class.  You extend this class as shown below.
@@ -40,8 +46,97 @@ class RokuSkill(MycroftSkill):
 	def __init__(self):
 		super(RokuSkill, self).__init__(name="RokuSkill")
 
-		self.ssdpQuery =
-			'M-SEARCH * HTTP/1.1\nHost: 239.255.255.250:1900\nMan: "ssdp:discover"\nST: roku:ecp\n\n'
+		self.rokuSerial = ""
+		self.rokuLocation = ""
+
+    def initialize(self):
+        self._load_vocab_files()
+
+        # Check and then monitor for credential changes
+        self.settings.set_changed_callback(self.on_websettings_changed)
+        self.on_websettings_changed()
+
+    def on_websettings_changed(self):
+		self.rokuSerial = self.settings.get("serial", "")
+
+		self.findRoku();
+
+	def parseSearchResponse(self, data):
+		lines = data.decode("utf-8").split('\n')
+
+		if (lines[0].strip() != "HTTP/1.1 200 OK"):
+			return None
+
+		isRoku = False
+		location = ""
+		usn = ""
+
+		for line in lines:
+			if (len (line) < 3):
+				continue
+
+			index = line.find(":")
+
+			if (index < 1 or index >= len (line) - 1):
+				continue
+
+			key = line[:index].strip().lower()
+			value = line[index+1:].strip()
+
+			if (key == "st"):
+				isRoku = value.lower() == "roku:ecp"
+
+				if (not isRoku): # No point in looking if it's not the roku
+					break
+			elif (key == "location"):
+				location = value
+			elif (key == "usn"):
+				usn = value
+		
+		if (not isRoku):
+			return None
+
+		return (location, usn)
+
+	def findRoku(self):
+		MCAST_GRP = '239.255.255.250'
+		MCAST_PORT = 1900
+
+		SSDP_QUERY = b"M-SEARCH * HTTP/1.1\n" \
+		             b"Host: 239.255.255.250:1900" \
+					 b"\nMan: \"ssdp:discover\"" \
+					 b"\nST: roku:ecp\n\n"
+
+		sendSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+		sendSock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 32)
+		sendSock.bind(('', 0));
+		sendSock.settimeout(1.0);
+
+		sendSock.sendto(SSDP_QUERY, (MCAST_GRP, MCAST_PORT))
+
+		found = False
+
+		try:
+			while 1:
+				data, addr = sendSock.recvfrom(2048)
+				response = parseSearchResponse(data)
+
+				if (response == None):
+					LOG.error("Failed to parse response")
+					continue
+
+				if (response[1].find(self.rokuSerial) >= 0):
+					self.rokuLocation = response[0]
+					LOG.info("Found Roku " + response[1] + " at " + self.rokuLocation)
+					found = True
+					break
+
+		except socket.timeout:
+			if not found:
+				LOG.error("No roku found")
+		except Exception as e:
+			LOG.exception("Error finding roku: " + e)
+
 
 	def get_intro_message (self):
 		return self.translate("intro")
@@ -59,13 +154,6 @@ class RokuSkill(MycroftSkill):
 	#   'Greetings planet earth'
 	@intent_handler(IntentBuilder("").require("Show").require("Source"))
 	def handle_roku_show_intent(self, message):
-		# In this case, respond by simply speaking a canned response.
-		# Mycroft will randomly speak one of the lines from the file
-		#    dialogs/en-us/hello.world.dialog
-
-		# TODO: Discover this IP
-		address = "192.168.10.20"
-
 		provider = ""
 		src = message.data["Source"]
 
@@ -93,7 +181,7 @@ class RokuSkill(MycroftSkill):
 
 		keyword=self._extract_show(message)
 
-		url = 'http://{}:8060/search/browse?keyword={}{}&launch=true'.format (address, keyword.replace(" ", "%20"), provider)
+		url = '{}search/browse?keyword={}{}&launch=true'.format (self.rokuLocation, keyword.replace(" ", "%20"), provider)
 
 		try:
 			postdata = urllib.parse.urlencode({}).encode()
