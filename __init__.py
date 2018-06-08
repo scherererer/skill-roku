@@ -50,9 +50,7 @@ class RokuSkill(MycroftSkill):
 		self.rokuLocation = ""
 
 	def initialize(self):
-		self._load_vocab_files()
-
-		# Check and then monitor for credential changes
+		# Check and then monitor for web settings
 		self.settings.set_changed_callback(self.on_websettings_changed)
 		self.on_websettings_changed()
 
