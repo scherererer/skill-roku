@@ -117,7 +117,7 @@ class RokuSkill(MycroftSkill):
 		try:
 			while 1:
 				data, addr = sendSock.recvfrom(2048)
-				response = parseSearchResponse(data)
+				response = self.parseSearchResponse(data)
 
 				if (response == None):
 					LOG.error("Failed to parse response")
@@ -133,7 +133,7 @@ class RokuSkill(MycroftSkill):
 			if not found:
 				LOG.error("No roku found")
 		except Exception as e:
-			LOG.exception("Error finding roku: " + e)
+			LOG.exception("Error finding roku: " + str(e))
 
 
 	def get_intro_message (self):
