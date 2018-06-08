@@ -169,7 +169,7 @@ class RokuSkill(MycroftSkill):
 			provider = "837"
 		elif src == "tiny desk concerts":
 			provider = "41305"
-		elif src == "tune in" || src == "tunein":
+		elif src == "tune in" or src == "tunein":
 			provider = "1453"
 		elif src == "plex":
 			provider = "13535"
