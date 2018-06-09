@@ -139,19 +139,16 @@ class RokuSkill(MycroftSkill):
 	def get_intro_message (self):
 		return self.translate("intro")
 
-	# The "handle_xxxx_intent" function is triggered by Mycroft when the
-	# skill's intent is matched.  The intent is defined by the IntentBuilder()
-	# pieces, and is triggered when the user's utterance matches the pattern
-	# defined by the keywords.  In this case, the match occurs when one word
-	# is found from each of the files:
-	#    vocab/en-us/Hello.voc
-	#    vocab/en-us/World.voc
-	# In this example that means it would match on utterances like:
-	#   'Hello world'
-	#   'Howdy you great big world'
-	#   'Greetings planet earth'
 	@intent_handler(IntentBuilder("").require("Show").require("Source"))
 	def handle_roku_show_intent(self, message):
+		# If we haven't found the roku, try finding it again right now
+		if (self.rokuLocation == ""):
+			self.findRoku()
+		# If we still can't find it, then just report a failure
+		if (self.rokuLocation == ""):
+			self.speak_dialog("failure")
+			return
+
 		provider = ""
 		src = message.data["Source"]
 
