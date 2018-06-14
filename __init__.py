@@ -193,7 +193,7 @@ class RokuSkill(MycroftSkill):
 		utterance = utterance.replace(message.data["Source"], "")
 
 		# strip out other unimportant words
-		common_words = translate_list("common_words");
+		common_words = self.translate_list("common_words");
 
 		for words in common_words:
 			utterance = utterance.replace(words, "")
