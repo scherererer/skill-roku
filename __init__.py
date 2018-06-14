@@ -192,11 +192,14 @@ class RokuSkill(MycroftSkill):
 		utterance = utterance.replace(message.data["Show"], "")
 		utterance = utterance.replace(message.data["Source"], "")
 
-		# strip out other non important words
-		common_words = [" to ", " on ", " with ", " using "]
+		# strip out other unimportant words
+		common_words = translate_list("common_words");
 
 		for words in common_words:
 			utterance = utterance.replace(words, "")
+
+		# Replace duplicate spaces
+		utterance = utterance.replace("  ", " ")
 
 		return utterance.strip();
 
