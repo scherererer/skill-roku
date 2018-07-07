@@ -13,7 +13,17 @@
                     {
                         "name": "serial",
                         "type": "text",
-                        "label": "Serial Number",
+                        "label": "Serial Number [Optional]",
+                        "value": ""
+                    },
+                    {
+                        "type": "label",
+                        "label": "Enter the IP address of the roku. Normally, the roku may be discovered automatically. If this doesn't work for any reason, you can enter the IP address of your roku manually. Note: Only use this option if you have a static IP address assigned for your roku."
+                    },
+                    {
+                        "name": "staticAddress",
+                        "type": "text",
+                        "label": "IP Address [Optional]",
                         "value": ""
                     }
                 ]

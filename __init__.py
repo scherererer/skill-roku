@@ -48,6 +48,7 @@ class RokuSkill(MycroftSkill):
 
 		self.rokuSerial = ""
 		self.rokuLocation = ""
+		self.rokuStaticAddress = ""
 
 	def initialize(self):
 		# Check and then monitor for web settings
@@ -56,6 +57,7 @@ class RokuSkill(MycroftSkill):
 
 	def on_websettings_changed(self):
 		self.rokuSerial = self.settings.get("serial", "")
+		self.rokuStaticAddress = self.settings.get("staticAddress", "")
 
 		self.findRoku();
 
@@ -97,6 +99,9 @@ class RokuSkill(MycroftSkill):
 		return (location, usn)
 
 	def findRoku(self):
+		if (self.rokuStaticAddress != ""):
+			self.rokuLocation = self.rokuStaticAddress
+
 		MCAST_GRP = '239.255.255.250'
 		MCAST_PORT = 1900
 
